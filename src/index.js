@@ -6,11 +6,18 @@ function component() {
   return element;
 }
 
-const accelButton = document.createElement('button');
-accelButton.innerText = 'Start';
-accelButton.addEventListener('click', function () {
-  AccelerometerSensor.getAccel();
+const startButton = document.createElement('button');
+startButton.innerText = 'Start';
+startButton.addEventListener('click', function () {
+  AccelerometerSensor.getAcceleration();
+});
+
+const stopButton = document.createElement('button');
+stopButton.innerText = 'Stop';
+stopButton.addEventListener('click', function () {
+  AccelerometerSensor.stopSensing();
 });
 
 document.body.appendChild(component());
-document.body.appendChild(accelButton);
+document.body.appendChild(startButton);
+document.body.appendChild(stopButton);
