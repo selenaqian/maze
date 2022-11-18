@@ -15,7 +15,7 @@ startButton.addEventListener('click', function () {
 const permissionButton = document.createElement('button');
 permissionButton.innerText = 'Permission?';
 permissionButton.addEventListener('click', function () {
-  accelerometerSensor.getPermission();
+  getPermission();
 });
 
 const stopButton = document.createElement('button');
@@ -31,3 +31,22 @@ buttonContainer.appendChild(stopButton);
 document.body.appendChild(buttonContainer);
 const app = new Level();
 app.start();
+
+function getPermission() {
+  DeviceMotionEvent.requestPermission().then((response) => {
+    if (response == 'granted') {
+      // Add a listener to get smartphone acceleration
+      // in the XYZ axes (units in m/s^2)
+      window.addEventListener('devicemotion', (event) => {
+        let newY = accelerometerSensor.handleDeviceMotion(event);
+        app.move(0, newY);
+      });
+      // Add a listener to get smartphone orientation
+      // in the alpha-beta-gamma axes (units in degrees)
+      window.addEventListener(
+        'deviceorientation',
+        (event) => accelerometerSensor.handleDeviceAcceleration(event)
+      );
+    }
+  });
+}

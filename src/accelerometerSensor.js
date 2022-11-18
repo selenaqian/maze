@@ -1,29 +1,48 @@
-class AccelerometerSensor {
+export default class AccelerometerSensor {
+  py = 30;
+  vy = 0;
+  ay = 0;
+  previousTime = 0;
+  collectInfo = false;
+  multiplier = 50;
+
+  constructor(multiplier) {
+    this.multiplier = multiplier;
+  }
+
   getAcceleration() {
-    DeviceMotionEvent.requestPermission().then((response) => {
-      if (response == 'granted') {
-        // Add a listener to get smartphone acceleration
-        // in the XYZ axes (units in m/s^2)
-        window.addEventListener('devicemotion', this.handleDeviceMotion);
-        // Add a listener to get smartphone orientation
-        // in the alpha-beta-gamma axes (units in degrees)
-        window.addEventListener('deviceorientation', this.handleDeviceAcceleration);
-      }
-    });
+    this.collectInfo = true;
+    this.previousTime = Date.now();
+    if (this.dot === undefined) {
+      this.dot = document.getElementsByClassName('indicatorDot')[0];
+    }
   }
 
   handleDeviceMotion(event) {
-    console.log(event);
+    if (this.collectInfo) {
+      let currentTime = Date.now();
+
+      if (event.acceleration.y > 1 && event.acceleration.y - this.ay > 0) {
+        let accel = event.acceleration.y - this.ay;
+        let dt = (currentTime - this.previousTime) / 1000;
+        this.vy = this.vy + accel * dt;
+        this.py = this.py - this.vy * dt;
+        this.py = Math.max(5, Math.min(95, this.py))
+        console.log('device motion', event.acceleration.y, accel, dt, this.vy, this.py);
+      }
+      this.previousTime = currentTime;
+      this.ay = event.acceleration.y;
+      return (this.py);
+    }
   }
 
   handleDeviceAcceleration(event) {
-    console.log(event);
+    if (this.collectInfo) {
+      //console.log(event);
+    }
   }
 
   stopSensing() {
-    window.removeEventListener('devicemotion', this.handleDeviceMotion, false);
-    window.removeEventListener('deviceorientation', this.handleDeviceAcceleration, false);
+    this.collectInfo = false;
   }
 }
-
-export default new AccelerometerSensor();
