@@ -1,25 +1,33 @@
 import AccelerometerSensor from './accelerometerSensor';
+import Level from './level';
 import './style.css';
 
-function component() {
-  const element = document.createElement('div');
-  element.innerHTML = 'Hello world';
-  element.classList.add('hello');
-  return element;
-}
+const accelerometerSensor = new AccelerometerSensor();
+
+const buttonContainer = document.createElement('div');
 
 const startButton = document.createElement('button');
 startButton.innerText = 'Start';
 startButton.addEventListener('click', function () {
-  AccelerometerSensor.getAcceleration();
+  accelerometerSensor.getAcceleration();
+});
+
+const permissionButton = document.createElement('button');
+permissionButton.innerText = 'Permission?';
+permissionButton.addEventListener('click', function () {
+  accelerometerSensor.getPermission();
 });
 
 const stopButton = document.createElement('button');
 stopButton.innerText = 'Stop';
 stopButton.addEventListener('click', function () {
-  AccelerometerSensor.stopSensing();
+  accelerometerSensor.stopSensing();
 });
 
-document.body.appendChild(component());
-document.body.appendChild(startButton);
-document.body.appendChild(stopButton);
+buttonContainer.appendChild(permissionButton);
+buttonContainer.appendChild(startButton);
+buttonContainer.appendChild(stopButton);
+
+document.body.appendChild(buttonContainer);
+const app = new Level();
+app.start();
