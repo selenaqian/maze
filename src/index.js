@@ -39,13 +39,13 @@ function getPermission() {
       // in the XYZ axes (units in m/s^2)
       window.addEventListener('devicemotion', (event) => {
         let newY = accelerometerSensor.handleDeviceMotion(event);
-        app.move(0, newY);
+        app.move(150, newY);
       });
       // Add a listener to get smartphone orientation
       // in the alpha-beta-gamma axes (units in degrees)
       window.addEventListener(
         'deviceorientation',
-        (event) => accelerometerSensor.handleDeviceAcceleration(event)
+        (event) => accelerometerSensor.handleDeviceOrientation(event)
       );
     }
   });
