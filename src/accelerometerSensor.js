@@ -30,13 +30,13 @@ export default class AccelerometerSensor {
         let dt = (currentTime - this.previousTime) / 1000;
         this.vy = this.vy + accel * dt;
         this.py = this.py - this.vy * dt;
-        this.py = Math.max(5, Math.min(250, this.py))
-        console.log('device motion', accel, this.ay, dt, this.vy, this.py);  
+        this.py = Math.max(5, Math.min(250, this.py));
+        console.log('device motion', accel, this.ay, dt, this.vy, this.py);
       }
-      
+
       this.previousTime = currentTime;
       this.ay = accel;
-      return (this.py);
+      return this.py;
     }
   }
 

@@ -43,9 +43,8 @@ function getPermission() {
       });
       // Add a listener to get smartphone orientation
       // in the alpha-beta-gamma axes (units in degrees)
-      window.addEventListener(
-        'deviceorientation',
-        (event) => accelerometerSensor.handleDeviceOrientation(event)
+      window.addEventListener('deviceorientation', (event) =>
+        accelerometerSensor.handleDeviceOrientation(event)
       );
     }
   });
